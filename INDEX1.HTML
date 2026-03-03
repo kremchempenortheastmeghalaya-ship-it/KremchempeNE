@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KREM CHEMPE • Northeast Meghalaya</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&amp;family=Inter:wght@400;500;600&amp;display=swap');
+        
+        :root {
+            --primary: #14532d;
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --glass-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            --glass-inset: inset 0 2px 4px rgba(255, 255, 255, 0.3), inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+            transition: opacity 0.3s ease;
+        }
+        
+        body.page-transition {
+            opacity: 0;
+        }
+        
+        .hero-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .mountain-bg {
+            position: relative;
+            overflow: hidden;
+            background: url('https://i.ibb.co/3mjHbTZ0/IMG-20260228-WA0010.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        
+        .mountain-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .mountain-bg > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .modal {
+            animation: modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        @keyframes modalPop {
+            0% { opacity: 0; transform: scale(0.7) translateY(40px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #4ade80;
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        /* Gallery Styles */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+            aspect-ratio: 4/3;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-item .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+        }
+
+        .gallery-item:hover .overlay {
+            opacity: 1;
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 0.5rem;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .lightbox-close:hover {
+            color: #4ade80;
+        }
+
+        .lightbox-prev,
+        .lightbox-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            padding: 1rem;
+            transition: color 0.3s;
+        }
+
+        .lightbox-prev:hover,
+        .lightbox-next:hover {
+            color: #4ade80;
+        }
+
+        .lightbox-prev {
+            left: 2rem;
+        }
+
+        .lightbox-next {
+            right: 2rem;
+        }
+
+        /* Refund Modal specific styles */
+        .refund-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #14532d;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .refund-table th {
+            background: #14532d;
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .refund-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #14532d;
+            color: #e2e8f0;
+        }
+
+        .refund-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* PURE LIQUID GLASS ICONS - iPhone iOS style */
+        .liquid-glass-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1.5px solid var(--glass-border);
+            box-shadow: var(--glass-shadow), var(--glass-inset);
+            color: white;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .liquid-glass-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.4),
+                transparent
+            );
+            transition: left 0.7s ease;
+        }
+
+        .liquid-glass-icon:hover::before {
+            left: 100%;
+        }
+
+        .liquid-glass-icon:hover {
+            transform: translateY(-8px) scale(1.1);
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), inset 0 3px 6px rgba(255, 255, 255, 0.5), inset 0 -3px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .liquid-glass-icon:active {
+            transform: translateY(-2px) scale(0.95);
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        /* LIQUID GLASS BUTTON - Base style for all buttons */
+        .liquid-glass-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            text-decoration: none;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1.5px solid var(--glass-border);
+            box-shadow: var(--glass-shadow), var(--glass-inset);
+            color: white;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            white-space: nowrap;
+            letter-spacing: 0.3px;
+        }
+
+        .liquid-glass-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.4),
+                transparent
+            );
+            transition: left 0.7s ease;
+        }
+
+        .liquid-glass-button:hover::before {
+            left: 100%;
+        }
+
+        .liquid-glass-button:hover {
+            transform: translateY(-3px) scale(1.03);
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), inset 0 3px 6px rgba(255, 255, 255, 0.5), inset 0 -3px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .liquid-glass-button:active {
+            transform: translateY(-1px) scale(0.98);
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        /* Small button variant for navbar */
+        .liquid-glass-button-small {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.85rem;
+            gap: 0.5rem;
+        }
+
+        /* Large button variant for hero section */
+        .liquid-glass-button-large {
+            padding: 1.2rem 2.5rem;
+            font-size: 1.2rem;
+            gap: 1rem;
+        }
+
+        /* Gmail button specific (for footer) */
+        .gmail-button {
+            max-width: 100%;
+            width: auto;
+            min-width: 320px;
+            padding: 1.2rem 2rem;
+            white-space: normal;
+            word-break: break-word;
+            text-align: left;
+            border-radius: 9999px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1.5px solid var(--glass-border);
+            box-shadow: var(--glass-shadow), var(--glass-inset);
+        }
+
+        .gmail-button i {
+            flex-shrink: 0;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .gmail-button .text-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .gmail-button .email-text {
+            font-size: 1rem;
+            word-break: break-all;
+            color: white;
+            font-weight: 500;
+        }
+
+        .gmail-button .label-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.8rem;
+        }
+
+        /* LIQUID GLASS MODAL */
+        .liquid-glass-modal {
+            background: rgba(20, 20, 30, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            border-radius: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .liquid-glass-modal-header {
+            background: rgba(74, 222, 128, 0.2);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem 2rem;
+        }
+
+        .liquid-glass-modal-content {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+        }
+
+        .liquid-glass-modal-button {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 9999px;
+            padding: 0.75rem 2rem;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .liquid-glass-modal-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Divider line */
+        .divider {
+            background: linear-gradient(90deg, transparent, #4ade80, transparent);
+            height: 2px;
+            width: 200px;
+            margin: 2rem auto;
+        }
+
+        .profile-modal {
+            text-align: center;
+        }
+
+        .profile-modal .profile-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 2px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            color: white;
+        }
+
+        /* LIQUID GLASS LOGO CONTAINER */
+        .liquid-glass-logo-container {
+            display: inline-block;
+            padding: 15px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid var(--glass-border);
+            border-radius: 50%;
+            box-shadow: var(--glass-shadow), var(--glass-inset), 0 15px 30px rgba(74, 222, 128, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin: 0 auto;
+            width: fit-content;
+        }
+
+        .liquid-glass-logo-container:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 40px rgba(74, 222, 128, 0.4), var(--glass-inset);
+        }
+
+        /* Custom logo styling */
+        .custom-logo {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Navbar logo */
+        .navbar-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #4ade80;
+            box-shadow: 0 4px 10px rgba(74, 222, 128, 0.3);
+        }
+
+        /* FULL COVER PHOTO SECTION */
+        .full-cover-photo {
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            background: linear-gradient(145deg, #0a0f0a, #0f1a0f);
+            position: relative;
+        }
+
+        .full-cover-image {
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            display: block;
+            position: relative;
+        }
+
+        .full-cover-image img {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* CENTERED DISCOVER GLASS BOX - Now in the middle of the photo */
+        .discover-centered {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 40px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.5), inset 0 -2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 20;
+            animation: gentlePulse 3s ease-in-out infinite;
+        }
+
+        .discover-centered::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.4),
+                transparent
+            );
+            transition: left 0.7s ease;
+            border-radius: 40px;
+        }
+
+        .discover-centered:hover::before {
+            left: 100%;
+        }
+
+        .discover-centered:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            border-color: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(74, 222, 128, 0.4), inset 0 3px 6px rgba(255, 255, 255, 0.6), inset 0 -3px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes gentlePulse {
+            0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); }
+            50% { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 20px 40px rgba(74, 222, 128, 0.4); }
+            100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); }
+        }
+
+        .discover-icon {
+            font-size: 1.8rem;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .discover-text {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
+        }
+
+        /* DISCOVERY FULL PAGE - Separate page style */
+        .discovery-page {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(145deg, #0a0f0a, #031003);
+            z-index: 20000;
+            overflow-y: auto;
+            animation: pageSlideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .discovery-page.active {
+            display: block;
+        }
+
+        @keyframes pageSlideIn {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .discovery-page-header {
+            position: sticky;
+            top: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(74, 222, 128, 0.3);
+            padding: 1rem 2rem;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .discovery-page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 2rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .discovery-page-close {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .discovery-page-close:hover {
+            transform: rotate(90deg) scale(1.1);
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #4ade80;
+        }
+
+        .discovery-page-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .discovery-page-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .discovery-page-card {
+            position: relative;
+            border-radius: 2rem;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            cursor: pointer;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .discovery-page-card:hover {
+            transform: scale(1.03) translateY(-5px);
+            border-color: #4ade80;
+            box-shadow: 0 20px 40px rgba(74, 222, 128, 0.3);
+        }
+
+        .discovery-page-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .discovery-page-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .discovery-page-card .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 1.1rem;
+            text-align: center;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+            border-top: 1px solid rgba(74, 222, 128, 0.3);
+        }
+
+        .discovery-page-card:hover .caption {
+            transform: translateY(0);
+        }
+
+        .discovery-page-section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+            margin: 2rem 0 1rem;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .discovery-page-section-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 2rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 2rem;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #4ade80;
+            transform: translateX(-5px);
+        }
+
+        /* TOP SECTION with Liquid Glass Logo Container */
+        .top-section {
+            padding: 8rem 0 4rem 0;
+            background: linear-gradient(145deg, #0a120a, #0f1f0f);
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid #14532d;
+            text-align: center;
+        }
+
+        .top-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #4ade80, transparent);
+        }
+
+        .top-section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #4ade80, transparent);
+        }
+
+        .top-section-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .custom-logo {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .liquid-glass-logo-container {
+                padding: 12px;
+            }
+            
+            .discover-centered {
+                width: 160px;
+                height: 60px;
+                gap: 10px;
+            }
+            
+            .discover-icon {
+                font-size: 1.4rem;
+            }
+            
+            .discover-text {
+                font-size: 1.3rem;
+            }
+            
+            .discovery-page-content {
+                padding: 1rem;
+            }
+            
+            .discovery-page-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1rem;
+            }
+            
+            .discovery-page-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .custom-logo {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .liquid-glass-logo-container {
+                padding: 10px;
+            }
+            
+            .discover-centered {
+                width: 140px;
+                height: 50px;
+                gap: 8px;
+            }
+            
+            .discover-icon {
+                font-size: 1.2rem;
+            }
+            
+            .discover-text {
+                font-size: 1.1rem;
+            }
+            
+            .liquid-glass-button-large {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+            
+            .gmail-button {
+                min-width: auto;
+                width: 100%;
+                padding: 1rem 1.5rem;
+            }
+            
+            .gmail-button .email-text {
+                font-size: 0.9rem;
+            }
+
+            .top-section {
+                padding: 7rem 0 3rem 0;
+            }
+
+            .liquid-glass-button {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+            
+            .discovery-page-title {
+                font-size: 1.2rem;
+                padding: 0.3rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- MAIN PAGE CONTENT -->
+    <div id="mainPage" class="bg-stone-950 text-stone-100 overflow-x-hidden">
+        <!-- NAVBAR with YOUR LOGO and LIQUID GLASS BUTTONS -->
+        <nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-lg border-b border-emerald-900">
+            <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <!-- YOUR LOGO (navbar) -->
+                    <img src="https://i.ibb.co/6cGZzvYy/Krem-Chempe-Ne-Meghalaya-20260301-132909-0000.png" 
+                         alt="Krem Chempe Logo" 
+                         class="navbar-logo">
+                    <div>
+                        <span class="hero-font text-2xl font-bold tracking-tighter text-white">KREM CHEMPE</span>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+                    <a href="#" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})" class="nav-link text-emerald-100 hover:text-emerald-400">SERVICES</a>
+                    <a href="#" onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})" class="nav-link text-emerald-100 hover:text-emerald-400">GALLERY</a>
+                    <a href="#" onclick="openBookModal()" class="nav-link text-emerald-100 hover:text-emerald-400">BOOK NOW</a>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <!-- EMAIL BUTTON - Perfect Liquid Glass -->
+                    <a href="mailto:kremchempenortheastmeghalaya@gmail.com" 
+                       class="liquid-glass-button liquid-glass-button-small">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span class="hidden sm:inline">kremchempenortheastmeghalaya@gmail.com</span>
+                    </a>
+                    
+                    <!-- BOOK NOW BUTTON - Perfect Liquid Glass -->
+                    <button onclick="openBookModal()" 
+                            class="liquid-glass-button liquid-glass-button-small">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        BOOK NOW
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- TOP SECTION - LIQUID GLASS LOGO CONTAINER -->
+        <section class="top-section">
+            <div class="top-section-content">
+                <!-- LIQUID GLASS CONTAINER around the logo -->
+                <div class="liquid-glass-logo-container">
+                    <img src="https://i.ibb.co/6cGZzvYy/Krem-Chempe-Ne-Meghalaya-20260301-132909-0000.png" 
+                         alt="Krem Chempe Logo" 
+                         class="custom-logo">
+                </div>
+                
+                <!-- Subtle decorative elements -->
+                <div class="mt-6 text-emerald-400/60 text-sm tracking-widest">
+                    ✦ ✦ ✦
+                </div>
+            </div>
+        </section>
+
+        <!-- HERO SECTION with Krem Chempe logo -->
+        <section class="mountain-bg min-h-screen flex items-center justify-center relative">
+            <div class="relative z-20 max-w-5xl mx-auto px-6 text-center pt-20">
+                <!-- Main Title -->
+                <div class="inline-flex flex-col items-center">
+                    <div class="text-[92px] hero-font font-black tracking-[-4px] leading-none text-white">KREM CHEMPE</div>
+                    <div class="text-emerald-300 text-2xl tracking-[6px] font-medium mt-1">NORTHEAST MEGHALAYA</div>
+                </div>
+                
+                <p class="max-w-md mx-auto mt-12 text-lg text-emerald-100/80">
+                    Explore the hidden caves of Meghalaya • Thrilling caving expeditions • Homestays • Camping under the stars
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center mt-14">
+                    <!-- BOOK NOW BUTTON - Large Liquid Glass -->
+                    <button onclick="openBookModal()" 
+                            class="liquid-glass-button liquid-glass-button-large">
+                        <span>BOOK YOUR ADVENTURE</span>
+                        <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- FULL COVER PHOTO SECTION with CENTERED DISCOVER BOX -->
+        <section class="full-cover-photo">
+            <div class="full-cover-image">
+                <img src="https://i.ibb.co/wNQ5nQ3J/chempefall.jpg" 
+                     alt="Krem Chempe Waterfall - East Jaintia Hills" 
+                     class="w-full">
+                
+                <!-- CENTERED DISCOVER GLASS BOX - In the middle of the photo -->
+                <div class="discover-centered" onclick="openDiscoveryPage()">
+                    <div class="discover-icon">
+                        <i class="fa-regular fa-compass"></i>
+                    </div>
+                    <div class="discover-text">
+                        DISCOVER
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES SECTION -->
+        <section id="services" class="py-24 bg-stone-900">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <span class="inline-block px-6 py-2 bg-emerald-900/50 text-emerald-300 text-sm tracking-widest rounded-full">OUR OFFERS</span>
+                    <h2 class="text-5xl hero-font font-bold mt-4">Services &amp; Pricing</h2>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Resources -->
+                    <div class="bg-stone-950 border border-emerald-900/50 rounded-3xl p-8">
+                        <h3 class="text-emerald-400 text-xl font-semibold mb-6 flex items-center gap-3">
+                            <i class="fa-solid fa-compass"></i> RESOURCES
+                        </h3>
+                        <div class="space-y-6">
+                            <div class="flex justify-between items-center py-4 border-b border-emerald-900">
+                                <div>LOCAL GUIDE</div>
+                                <div class="font-semibold text-emerald-300">₹1,500</div>
+                            </div>
+                            <div class="flex justify-between items-center py-4 border-b border-emerald-900">
+                                <div>4X4 OFF-ROADING</div>
+                                <div class="font-semibold text-emerald-300">₹4,000</div>
+                            </div>
+                            <div class="flex justify-between items-center py-4 border-b border-emerald-900">
+                                <div>
+                                    CAVING EXPEDITION <span class="text-xs text-emerald-400 block">(700m length)</span>
+                                </div>
+                                <div class="font-semibold text-emerald-300">₹1,200 <span class="text-xs text-emerald-400">/person</span></div>
+                            </div>
+                            <div class="text-xs text-emerald-400 pl-1">
+                                <strong>Includes:</strong><br>
+                                • Bamboo Rafting • Torch Light • Life Jacket • Entry fees • Explanation
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Camping -->
+                    <div class="bg-stone-950 border border-emerald-900/50 rounded-3xl p-8">
+                        <h3 class="text-emerald-400 text-xl font-semibold mb-6 flex items-center gap-3">
+                            <i class="fa-solid fa-tent"></i> CAMPING
+                        </h3>
+                        <div class="mb-8">
+                            <div class="flex justify-between items-baseline">
+                                <div class="text-4xl font-bold">₹1,200</div>
+                                <div class="text-sm text-emerald-400">PER PERSON</div>
+                            </div>
+                        </div>
+                        <div class="text-xs text-emerald-400 space-y-2">
+                            <div class="flex gap-3"><span class="text-emerald-500">•</span> Dinner - Non-veg (Chicken) [preference extra]</div>
+                            <div class="flex gap-3"><span class="text-emerald-500">•</span> Maggie (Morning treat)</div>
+                        </div>
+                        
+                        <div class="mt-10 pt-6 border-t border-emerald-900">
+                            <div class="flex justify-between text-sm">
+                                <div>SOUND SYSTEM JBL</div>
+                                <div class="font-semibold">₹700 /night</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Homestay -->
+                    <div class="md:col-span-2 bg-gradient-to-r from-emerald-950 to-stone-950 border border-emerald-900/50 rounded-3xl p-10 flex flex-col md:flex-row gap-12 items-center">
+                        <div class="flex-1">
+                            <div class="uppercase text-xs tracking-widest text-emerald-400 mb-2">EXCLUSIVE</div>
+                            <div class="text-5xl hero-font font-bold leading-none">HOMESTAY</div>
+                            <div class="text-6xl font-bold text-emerald-400 mt-3">₹1,000 <span class="text-2xl align-super text-white">/night</span></div>
+                            <div class="text-emerald-300 mt-3">King size bed • Pure nature stay</div>
+                            <div class="mt-8 text-xs text-emerald-400">[No Food Included]</div>
+                        </div>
+                        <div class="flex-1 text-sm leading-relaxed text-emerald-100/70">
+                            Experience authentic Khasi hospitality in our beautiful homestay nestled in the hills of Northeast Meghalaya.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALLERY SECTION -->
+        <section id="gallery" class="py-24 bg-stone-950">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <span class="inline-block px-6 py-2 bg-emerald-900/50 text-emerald-300 text-sm tracking-widest rounded-full">MEMORIES</span>
+                    <h2 class="text-5xl hero-font font-bold mt-4">Photo Gallery</h2>
+                    <p class="text-emerald-300/70 mt-4 max-w-2xl mx-auto">Experience the beauty of Krem Chempe through these stunning captures</p>
+                </div>
+
+                <!-- Gallery Grid -->
+                <div class="gallery-grid">
+                    <!-- Photo 1 -->
+                    <div class="gallery-item" onclick="openLightbox(0)">
+                        <img src="https://i.ibb.co/Kps4fssQ/IMG-20260228-WA0008.jpg" alt="Krem Chempe Waterfall">
+                        <div class="overlay">
+                            <span class="text-white font-semibold">Beautiful Waterfall</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Photo 2 -->
+                    <div class="gallery-item" onclick="openLightbox(1)">
+                        <img src="https://i.ibb.co/60ZqGFgN/IMG-20260217-WA0002.jpg" alt="Krem Chempe Cave Formation">
+                        <div class="overlay">
+                            <span class="text-white font-semibold">Ancient Cave Formations</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Photo 3 -->
+                    <div class="gallery-item" onclick="openLightbox(2)">
+                        <img src="https://via.placeholder.com/600x400/14532d/4ade80?text=Stalactites" alt="Stalactites">
+                        <div class="overlay">
+                            <span class="text-white font-semibold">Natural Formations</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Photo 4 -->
+                    <div class="gallery-item" onclick="openLightbox(3)">
+                        <img src="https://via.placeholder.com/600x400/14532d/4ade80?text=Jungle+Stream" alt="Jungle Stream">
+                        <div class="overlay">
+                            <span class="text-white font-semibold">Hidden Streams</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Photo 5 -->
+                    <div class="gallery-item" onclick="openLightbox(4)">
+                        <img src="https://via.placeholder.com/600x400/14532d/4ade80?text=Camping+Site" alt="Camping Site">
+                        <div class="overlay">
+                            <span class="text-white font-semibold">Starlit Camping</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Photo 6 -->
+                    <div class="gallery-item" onclick="openLightbox(5)">
+                        <img src="https://via.placeholder.com/600x400/14532d/4ade80?text=Local+Guides" alt="Local Guides">
+                        <div class="overlay">
+                            <span class="text-white font-semibold">Expert Local Guides</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Photo 7 -->
+                    <div class="gallery-item" onclick="openLightbox(6)">
+                        <img src="https://via.placeholder.com/600x400/14532d/4ade80?text=Sunset+View" alt="Sunset View">
+                        <div class="overlay">
+                            <span class="text-white font-semibold">Magical Sunsets</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Photo 8 -->
+                    <div class="gallery-item" onclick="openLightbox(7)">
+                        <img src="https://via.placeholder.com/600x400/14532d/4ade80?text=Cave+Pool" alt="Cave Pool">
+                        <div class="overlay">
+                            <span class="text-white font-semibold">Underground Pools</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Photo 9 -->
+                    <div class="gallery-item" onclick="openLightbox(8)">
+                        <img src="https://via.placeholder.com/600x400/14532d/4ade80?text=Adventure+Team" alt="Adventure Team">
+                        <div class="overlay">
+                            <span class="text-white font-semibold">Your Adventure Awaits</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Photo 10 -->
+                    <div class="gallery-item" onclick="openLightbox(9)">
+                        <img src="https://via.placeholder.com/600x400/14532d/4ade80?text=Krem+Chempe" alt="Krem Chempe">
+                        <div class="overlay">
+                            <span class="text-white font-semibold">Pure Meghalaya Magic</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LIGHTBOX for gallery -->
+        <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+            <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+            <span class="lightbox-prev" onclick="changeImage(-1)">&#10094;</span>
+            <img id="lightbox-img" src="" alt="Gallery Image">
+            <span class="lightbox-next" onclick="changeImage(1)">&#10095;</span>
+        </div>
+
+        <!-- FOOTER with Refund Policy and PURE LIQUID GLASS Social Media Icons -->
+        <footer class="bg-black py-16 border-t border-emerald-900">
+            <div class="max-w-7xl mx-auto px-6 text-center">
+                <!-- Footer Logo with KREM CHEMPE and NE MEGHALAYA -->
+                <div class="flex flex-col items-center justify-center mb-8">
+                    <div class="flex items-center gap-3 text-2xl mb-2">
+                        <img src="https://i.ibb.co/6cGZzvYy/Krem-Chempe-Ne-Meghalaya-20260301-132909-0000.png" 
+                             alt="Krem Chempe Logo" 
+                             class="navbar-logo w-16 h-16">
+                        <span class="hero-font font-bold tracking-wider text-3xl">KREM CHEMPE</span>
+                    </div>
+                    <div class="text-emerald-400 text-xl tracking-wider font-medium">
+                        & NE MEGHALAYA
+                    </div>
+                </div>
+                
+                <div class="text-emerald-300/70 text-sm max-w-md mx-auto">
+                    Adventure awaits in the caves of Meghalaya.<br>
+                    Real experiences. Real nature. Real memories.
+                </div>
+                
+                <!-- GMAIL BUTTON - Perfect Liquid Glass matching icons -->
+                <div class="flex justify-center w-full px-4">
+                    <a href="mailto:kremchempenortheastmeghalaya@gmail.com" 
+                       class="gmail-button">
+                        <i class="fa-solid fa-envelope"></i>
+                        <div class="text-content">
+                            <div class="label-text text-left">REACH US ANYTIME</div>
+                            <div class="email-text">kremchempenortheastmeghalaya@gmail.com</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- REFUND POLICY LINK -->
+                <div class="mt-8">
+                    <button onclick="openRefundModal()" 
+                            class="text-emerald-400 hover:text-emerald-300 transition-colors flex items-center justify-center gap-2 mx-auto">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                        <span class="underline underline-offset-4">View Refund & Cancellation Policy</span>
+                    </button>
+                </div>
+
+                <!-- Beautiful Divider Line -->
+                <div class="divider"></div>
+
+                <!-- PURE LIQUID GLASS SOCIAL MEDIA ICONS -->
+                <div class="flex justify-center gap-6 mt-8">
+                    <button onclick="openProfileModal('instagram')" class="liquid-glass-icon">
+                        <i class="fa-brands fa-instagram"></i>
+                    </button>
+                    <button onclick="openProfileModal('whatsapp')" class="liquid-glass-icon">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </button>
+                    <button onclick="openProfileModal('email')" class="liquid-glass-icon">
+                        <i class="fa-solid fa-envelope"></i>
+                    </button>
+                </div>
+                
+                <div class="text-[10px] text-emerald-900 mt-8">
+                    © 2026 Krem Chempe • Northeast Meghalaya • All Rights Reserved
+                </div>
+            </div>
+        </footer>
+
+        <!-- BOOK NOW MODAL -->
+        <div id="bookModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur z-[9999] flex items-center justify-center">
+            <div class="modal liquid-glass-modal max-w-xl w-full mx-4">
+                <div class="liquid-glass-modal-header">
+                    <div class="text-emerald-300 text-xs tracking-widest mb-1">KREM CHEMPE</div>
+                    <div class="text-3xl hero-font font-bold text-white">Book Your Adventure</div>
+                </div>
+                
+                <form id="bookingForm" onsubmit="handleBooking(event)" class="liquid-glass-modal-content space-y-7">
+                    <div>
+                        <label class="block text-xs text-emerald-300 mb-1.5">NAME *</label>
+                        <input type="text" required 
+                               class="w-full bg-white/10 border border-white/20 focus:border-emerald-400 rounded-2xl px-5 py-4 outline-none text-white backdrop-blur-sm">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs text-emerald-300 mb-1.5">TOTAL NUMBER OF PERSONS (specify no. and age of adults &amp; children) *</label>
+                        <textarea required rows="2"
+                                  class="w-full bg-white/10 border border-white/20 focus:border-emerald-400 rounded-2xl px-5 py-4 outline-none text-white backdrop-blur-sm resize-none"></textarea>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs text-emerald-300 mb-1.5">TENTATIVE TRAVEL DATES &amp; MONTH *</label>
+                        <input type="text" required placeholder="e.g. 15-20 March 2026"
+                               class="w-full bg-white/10 border border-white/20 focus:border-emerald-400 rounded-2xl px-5 py-4 outline-none text-white backdrop-blur-sm">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs text-emerald-300 mb-1.5">PHONE *</label>
+                            <input type="tel" required 
+                                   class="w-full bg-white/10 border border-white/20 focus:border-emerald-400 rounded-2xl px-5 py-4 outline-none text-white backdrop-blur-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-emerald-300 mb-1.5">EMAIL *</label>
+                            <input type="email" required 
+                                   class="w-full bg-white/10 border border-white/20 focus:border-emerald-400 rounded-2xl px-5 py-4 outline-none text-white backdrop-blur-sm">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-8">
+                        <div>
+                            <label class="block text-xs text-emerald-300 mb-3">DINNER INCLUSION *</label>
+                            <div class="flex gap-8">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="dinner" value="yes" class="w-4 h-4 accent-emerald-500">
+                                    <span>Yes</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="dinner" value="no" class="w-4 h-4 accent-emerald-500" checked>
+                                    <span>No</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-xs text-emerald-300 mb-3">CAVING ACTIVITIES *</label>
+                            <div class="flex gap-8">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="caving" value="yes" class="w-4 h-4 accent-emerald-500" checked>
+                                    <span>Yes</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="caving" value="no" class="w-4 h-4 accent-emerald-500">
+                                    <span>No</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-8">
+                        <div>
+                            <label class="block text-xs text-emerald-300 mb-3">HOMESTAY *</label>
+                            <div class="flex gap-8">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="homestay" value="yes" class="w-4 h-4 accent-emerald-500">
+                                    <span>Yes</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="homestay" value="no" class="w-4 h-4 accent-emerald-500" checked>
+                                    <span>No</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-xs text-emerald-300 mb-3">CAMPING *</label>
+                            <div class="flex gap-8">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="camping" value="yes" class="w-4 h-4 accent-emerald-500">
+                                    <span>Yes</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="camping" value="no" class="w-4 h-4 accent-emerald-500" checked>
+                                    <span>No</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-4">
+                        <label class="block text-xs text-emerald-300 mb-2">NOTES</label>
+                        <p class="text-xs text-emerald-300/70">Dinner option is for Homestay bookings only (₹1,000/night no dinner inclusion)</p>
+                    </div>
+                    
+                    <button type="submit"
+                            class="w-full liquid-glass-modal-button text-lg py-5 mt-6">
+                        SEND BOOKING REQUEST
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- REFUND POLICY MODAL -->
+        <div id="refundModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur z-[9999] flex items-center justify-center">
+            <div class="modal liquid-glass-modal max-w-2xl w-full mx-4 max-h-[90vh] overflow-hidden flex flex-col">
+                <div class="liquid-glass-modal-header sticky top-0 z-10">
+                    <div class="text-emerald-300 text-xs tracking-widest mb-1">KREM CHEMPE</div>
+                    <div class="text-3xl hero-font font-bold text-white">Refund & Cancellation Policy</div>
+                </div>
+                
+                <div class="flex-1 overflow-auto liquid-glass-modal-content space-y-8">
+                    <!-- Cancellation Policy -->
+                    <div>
+                        <h3 class="text-emerald-400 text-xl font-semibold mb-4 flex items-center gap-3">
+                            <i class="fa-solid fa-calendar-xmark"></i> CANCELLATION POLICY
+                        </h3>
+                        <p class="text-emerald-300/80 mb-4">You may cancel your booking by notifying us in writing (email or WhatsApp). Refund eligibility is based on the notice period before the scheduled tour date:</p>
+                        
+                        <table class="refund-table">
+                            <thead>
+                                <tr>
+                                    <th>Time of Cancellation</th>
+                                    <th>Refund Policy</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>More than 7 days</td>
+                                    <td>90% refund of total price or full credit voucher</td>
+                                </tr>
+                                <tr>
+                                    <td>3-7 days</td>
+                                    <td>50% refund of total price</td>
+                                </tr>
+                                <tr>
+                                    <td>Less than 3 days</td>
+                                    <td>No refund</td>
+                                </tr>
+                                <tr>
+                                    <td>No show on tour date</td>
+                                    <td>No refund; no reschedule available</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Rescheduling -->
+                    <div>
+                        <h3 class="text-emerald-400 text-xl font-semibold mb-4 flex items-center gap-3">
+                            <i class="fa-solid fa-calendar-check"></i> RESCHEDULING POLICY
+                        </h3>
+                        <ul class="space-y-2 text-emerald-300/80">
+                            <li class="flex gap-3"><span class="text-emerald-500">•</span> Rescheduling is allowed once, requested at least 3 days before the original date.</li>
+                            <li class="flex gap-3"><span class="text-emerald-500">•</span> Rescheduled bookings are non-refundable.</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Refund Mode -->
+                    <div>
+                        <h3 class="text-emerald-400 text-xl font-semibold mb-4 flex items-center gap-3">
+                            <i class="fa-solid fa-clock-rotate-left"></i> REFUND MODE AND TIMELINE
+                        </h3>
+                        <ul class="space-y-2 text-emerald-300/80">
+                            <li class="flex gap-3"><span class="text-emerald-500">•</span> Refunds will be processed within 7-10 working days.</li>
+                            <li class="flex gap-3"><span class="text-emerald-500">•</span> Refunds issued via the original payment method (UPI, bank, etc.).</li>
+                            <li class="flex gap-3"><span class="text-emerald-500">•</span> Bank/UPI details must be correctly provided by the guest.</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Exceptions -->
+                    <div>
+                        <h3 class="text-emerald-400 text-xl font-semibold mb-4 flex items-center gap-3">
+                            <i class="fa-solid fa-exclamation-triangle"></i> EXCEPTIONS
+                        </h3>
+                        <p class="text-emerald-300/80 mb-2">No refunds in case of:</p>
+                        <ul class="space-y-2 text-emerald-300/80">
+                            <li class="flex gap-3"><span class="text-emerald-500">•</span> Force majeure (weather, strikes, roadblocks).</li>
+                            <li class="flex gap-3"><span class="text-emerald-500">•</span> Late arrival or mid-tour exit by the guest.</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- How to Request -->
+                    <div class="pt-4 border-t border-white/10">
+                        <h3 class="text-emerald-400 text-lg font-semibold mb-3">HOW TO REQUEST A REFUND</h3>
+                        <p class="text-emerald-300/80 mb-2">Email us at:</p>
+                        <a href="mailto:kremchempenortheastmeghalaya@gmail.com" 
+                           class="inline-block liquid-glass-modal-button px-6 py-3 mb-4">
+                            <i class="fa-solid fa-envelope mr-2"></i>
+                            kremchempenortheastmeghalaya@gmail.com
+                        </a>
+                        <p class="text-sm text-emerald-300/70 mt-2">Please include: Full Name, Invoice Number, Tour Date, Reason for Cancellation, and UPI/Bank details (if applicable).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROFILE MODAL for Social Media - LIQUID GLASS iPhone style -->
+        <div id="profileModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur z-[9999] flex items-center justify-center">
+            <div class="modal liquid-glass-modal max-w-md w-full mx-4">
+                <div class="liquid-glass-modal-header flex items-center justify-between">
+                    <div class="text-2xl hero-font font-bold text-white" id="profileModalTitle">Profile</div>
+                    <button onclick="closeProfileModal()" 
+                            class="text-white/80 hover:text-white text-4xl leading-none transition-colors">×</button>
+                </div>
+                
+                <div class="liquid-glass-modal-content profile-modal" id="profileModalContent">
+                    <!-- Content will be filled by JavaScript with glass buttons -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DISCOVERY FULL PAGE - Separate page -->
+    <div id="discoveryPage" class="discovery-page">
+        <div class="discovery-page-header">
+            <div class="discovery-page-title">
+                <i class="fa-regular fa-compass mr-3"></i>
+                DISCOVER KREM CHEMPE
+            </div>
+            <div class="discovery-page-close" onclick="closeDiscoveryPage()">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+        </div>
+        
+        <div class="discovery-page-content">
+            <!-- Back button -->
+            <div class="back-button" onclick="closeDiscoveryPage()">
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to Main Page
+            </div>
+            
+            <h2 class="discovery-page-section-title">The Hidden Paradise</h2>
+            <p class="discovery-page-section-subtitle">Explore the breathtaking beauty of East Jaintia Hills through our photo collection</p>
+            
+            <!-- Photo Grid -->
+            <div class="discovery-page-grid">
+                <!-- Photo 1 - Your waterfall photo -->
+                <div class="discovery-page-card">
+                    <img src="https://i.ibb.co/wNQ5nQ3J/chempefall.jpg" alt="Krem Chempe Waterfall">
+                    <div class="caption">Majestic Waterfall</div>
+                </div>
+                
+                <!-- Photo 2 -->
+                <div class="discovery-page-card">
+                    <img src="https://i.ibb.co/Kps4fssQ/IMG-20260228-WA0008.jpg" alt="Krem Chempe">
+                    <div class="caption">Cave Entrance</div>
+                </div>
+                
+                <!-- Photo 3 -->
+                <div class="discovery-page-card">
+                    <img src="https://i.ibb.co/60ZqGFgN/IMG-20260217-WA0002.jpg" alt="Krem Chempe Cave">
+                    <div class="caption">Ancient Formations</div>
+                </div>
+                
+                <!-- Photo 4 -->
+                <div class="discovery-page-card">
+                    <img src="https://via.placeholder.com/600x400/14532d/4ade80?text=Jungle+Stream" alt="Jungle Stream">
+                    <div class="caption">Hidden Streams</div>
+                </div>
+                
+                <!-- Photo 5 -->
+                <div class="discovery-page-card">
+                    <img src="https://via.placeholder.com/600x400/14532d/4ade80?text=Camping+Site" alt="Camping">
+                    <div class="caption">Starlit Camping</div>
+                </div>
+                
+                <!-- Photo 6 -->
+                <div class="discovery-page-card">
+                    <img src="https://via.placeholder.com/600x400/14532d/4ade80?text=Local+Guides" alt="Guides">
+                    <div class="caption">Expert Guides</div>
+                </div>
+                
+                <!-- Photo 7 -->
+                <div class="discovery-page-card">
+                    <img src="https://via.placeholder.com/600x400/14532d/4ade80?text=Sunset+View" alt="Sunset">
+                    <div class="caption">Magical Sunsets</div>
+                </div>
+                
+                <!-- Photo 8 -->
+                <div class="discovery-page-card">
+                    <img src="https://via.placeholder.com/600x400/14532d/4ade80?text=Cave+Pool" alt="Cave Pool">
+                    <div class="caption">Underground Pools</div>
+                </div>
+                
+                <!-- Photo 9 -->
+                <div class="discovery-page-card">
+                    <img src="https://via.placeholder.com/600x400/14532d/4ade80?text=Adventure+Team" alt="Adventure">
+                    <div class="caption">Adventure Team</div>
+                </div>
+                
+                <!-- Photo 10 -->
+                <div class="discovery-page-card">
+                    <img src="https://via.placeholder.com/600x400/14532d/4ade80?text=Krem+Chempe" alt="Krem Chempe">
+                    <div class="caption">Pure Meghalaya Magic</div>
+                </div>
+            </div>
+            
+            <!-- Note about more photos -->
+            <div class="text-center mt-12 mb-8">
+                <div class="inline-block px-8 py-4" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 50px; border: 1px solid rgba(255,255,255,0.2);">
+                    <i class="fa-regular fa-images mr-2 text-emerald-400"></i>
+                    <span class="text-white">More photos will be added soon...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Gallery Lightbox functionality
+        let currentImageIndex = 0;
+        const galleryImages = [
+            'https://i.ibb.co/Kps4fssQ/IMG-20260228-WA0008.jpg',
+            'https://i.ibb.co/60ZqGFgN/IMG-20260217-WA0002.jpg',
+            'https://via.placeholder.com/1200x800/14532d/4ade80?text=Stalactites',
+            'https://via.placeholder.com/1200x800/14532d/4ade80?text=Jungle+Stream',
+            'https://via.placeholder.com/1200x800/14532d/4ade80?text=Camping+Site',
+            'https://via.placeholder.com/1200x800/14532d/4ade80?text=Local+Guides',
+            'https://via.placeholder.com/1200x800/14532d/4ade80?text=Sunset+View',
+            'https://via.placeholder.com/1200x800/14532d/4ade80?text=Cave+Pool',
+            'https://via.placeholder.com/1200x800/14532d/4ade80?text=Adventure+Team',
+            'https://via.placeholder.com/1200x800/14532d/4ade80?text=Krem+Chempe'
+        ];
+
+        function openLightbox(index) {
+            currentImageIndex = index;
+            document.getElementById('lightbox-img').src = galleryImages[currentImageIndex];
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox(event) {
+            if (!event || event.target === document.getElementById('lightbox') || event.target.classList.contains('lightbox-close')) {
+                document.getElementById('lightbox').classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function changeImage(direction) {
+            currentImageIndex = (currentImageIndex + direction + galleryImages.length) % galleryImages.length;
+            document.getElementById('lightbox-img').src = galleryImages[currentImageIndex];
+        }
+
+        // Keyboard navigation for lightbox
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('lightbox').classList.contains('active')) {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                } else if (e.key === 'ArrowLeft') {
+                    changeImage(-1);
+                } else if (e.key === 'ArrowRight') {
+                    changeImage(1);
+                }
+            }
+            
+            // Close discovery page with ESC
+            if (e.key === 'Escape') {
+                const discoveryPage = document.getElementById('discoveryPage');
+                if (discoveryPage.classList.contains('active')) {
+                    closeDiscoveryPage();
+                }
+            }
+        });
+
+        // Discovery Page functions - Opens as separate full page
+        function openDiscoveryPage() {
+            document.getElementById('discoveryPage').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDiscoveryPage() {
+            document.getElementById('discoveryPage').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Modal functions
+        function openBookModal() {
+            document.getElementById('bookModal').classList.remove('hidden');
+            document.getElementById('bookModal').classList.add('flex');
+        }
+        
+        function closeBookModal() {
+            const modal = document.getElementById('bookModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+        
+        function openRefundModal() {
+            document.getElementById('refundModal').classList.remove('hidden');
+            document.getElementById('refundModal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeRefundModal() {
+            const modal = document.getElementById('refundModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Profile Modal functions
+        function openProfileModal(type) {
+            const modal = document.getElementById('profileModal');
+            const title = document.getElementById('profileModalTitle');
+            const content = document.getElementById('profileModalContent');
+            
+            let html = '';
+            
+            if (type === 'instagram') {
+                title.textContent = 'Instagram';
+                html = `
+                    <div class="profile-icon">
+                        <i class="fa-brands fa-instagram"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">@kremchempenortheastmeghalaya</h3>
+                    <p class="text-emerald-300/70 mb-6">Follow us on Instagram for amazing photos and updates!</p>
+                    <a href="https://www.instagram.com/kremchempenortheastmeghalaya?igsh=ZTZ0cWlsbTN5dWdi" 
+                       target="_blank"
+                       class="liquid-glass-modal-button px-8 py-4">
+                        <i class="fa-brands fa-instagram mr-2"></i>
+                        Open Instagram
+                    </a>
+                `;
+            } else if (type === 'whatsapp') {
+                title.textContent = 'WhatsApp';
+                html = `
+                    <div class="profile-icon">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">+91 9366200665</h3>
+                    <p class="text-emerald-300/70 mb-6">Chat with us on WhatsApp for quick responses!</p>
+                    <a href="https://wa.me/919366200665" 
+                       target="_blank"
+                       class="liquid-glass-modal-button px-8 py-4">
+                        <i class="fa-brands fa-whatsapp mr-2"></i>
+                        Open WhatsApp
+                    </a>
+                `;
+            } else if (type === 'email') {
+                title.textContent = 'Email';
+                html = `
+                    <div class="profile-icon">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">kremchempenortheastmeghalaya@gmail.com</h3>
+                    <p class="text-emerald-300/70 mb-6">Send us an email for bookings and inquiries!</p>
+                    <a href="mailto:kremchempenortheastmeghalaya@gmail.com" 
+                       class="liquid-glass-modal-button px-8 py-4">
+                        <i class="fa-solid fa-envelope mr-2"></i>
+                        Send Email
+                    </a>
+                `;
+            }
+            
+            content.innerHTML = html;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeProfileModal() {
+            const modal = document.getElementById('profileModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function handleBooking(e) {
+            e.preventDefault();
+            alert("✅ Booking request received!\n\nThank you for choosing Krem Chempe.\nWe will contact you shortly on the provided email/phone.\n\nKREM CHEMPE • Northeast Meghalaya");
+            closeBookModal();
+            e.target.reset();
+        }
+        
+        // Close modals on ESC (already handled above)
+        
+        // Click outside to close modals
+        document.getElementById('bookModal').addEventListener('click', function(e) {
+            if (e.target === this) closeBookModal();
+        });
+        
+        document.getElementById('refundModal').addEventListener('click', function(e) {
+            if (e.target === this) closeRefundModal();
+        });
+
+        document.getElementById('profileModal').addEventListener('click', function(e) {
+            if (e.target === this) closeProfileModal();
+        });
+        
+        // Initialize
+        window.onload = function() {
+            console.log('%cKREM CHEMPE Website Ready with Centered Discover Box ✅', 'color:#4ade80; font-family:monospace');
+        };
+    </script>
+</body>
+</html>
